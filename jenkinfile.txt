@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+            }
+        }
+    }
+
+    post {
+        always {
+            emailext(
+                to: 'vaibhavrana028@gmail.com',
+                subject: "Build ${currentBuild.result}: ${env.JOB_NAME}",
+                body: "Build #${env.BUILD_NUMBER} finished.\nCheck: ${env.BUILD_URL}"
+            )
+        }
+    }
+}
